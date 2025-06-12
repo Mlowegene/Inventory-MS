@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router";
 import Root from "./utils/root";
 import Login from "./pages/login";
 import ProtectedRoutes from "./utils/ProtectedRoutes";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -10,13 +11,22 @@ function App() {
       <Routes>
         <Route path="/" element={<Root />} />
         <Route
-          path="/admin/dashboard"
+          path="/admin-dashboard"
           element={
             <ProtectedRoutes requiredRole={["admin"]}>
-              <h1>admin dashboard</h1>
+              <Dashboard />
             </ProtectedRoutes>
           }
-        />
+        >
+          <Route index element={<h2>summary of dashboard</h2>} />
+          <Route path="categories" element={<h2>Categories</h2>} />
+          <Route path="products" element={<h2>Products</h2>} />
+          <Route path="suppliers" element={<h2>Suppliers</h2>} />
+          <Route path="orders" element={<h2>Orders</h2>} />
+          <Route path="users" element={<h2>Users</h2>} />
+          <Route path="profile" element={<h2>Profile</h2>} />
+          <Route path="logout" element={<h2>Logout</h2>} />
+        </Route>
         <Route
           path="/customer/dashboard"
           element={<h1>Customer dashboard</h1>}
