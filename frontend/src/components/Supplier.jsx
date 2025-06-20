@@ -25,7 +25,7 @@ function Supplier() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if(editSupplier){
+    if (editSupplier) {
       try {
         const response = await axios.put(
           `http://localhost:5000/api/supplier/${editSupplier}`,
@@ -41,11 +41,11 @@ function Supplier() {
           alert("supplier updated successfully");
           setAddModal(false);
           setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-        });
+            name: "",
+            email: "",
+            phone: "",
+            address: "",
+          });
           fetchSuppliers();
         } else {
           alert("Error editing supplier");
@@ -56,39 +56,38 @@ function Supplier() {
           error.response?.data || error.message
         );
       }
-    }else{
+    } else {
       try {
-      const response = await axios.post(
-        "http://localhost:5000/api/supplier/add",
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+        const response = await axios.post(
+          "http://localhost:5000/api/supplier/add",
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-      if (response.data.success) {
-        alert("supplier added successfully");
-        setAddModal(true);
-        fetchSuppliers();
-        setFormData({
-          name: "",
-          email: "",
-          phone: "",
-          address: "",
-        });
-      } else {
-        alert("Error adding supplier ");
+        if (response.data.success) {
+          alert("supplier added successfully");
+          setAddModal(false);
+          fetchSuppliers();
+          setFormData({
+            name: "",
+            email: "",
+            phone: "",
+            address: "",
+          });
+        } else {
+          alert("Error adding supplier ");
+        }
+      } catch (error) {
+        console.error(
+          "API Error in adding supplier:",
+          error.response?.data || error.message
+        );
       }
-    } catch (error) {
-      console.error(
-        "API Error in adding supplier:",
-        error.response?.data || error.message
-      );
     }
-    }
-    
   };
 
   const fetchSuppliers = async () => {
@@ -135,9 +134,11 @@ function Supplier() {
     setEditSupplier(null);
   };
 
-    const handleDelete = async (id) => {
-    const confirmDelete = window.confirm("Are you sure you want to delete this supplier");
-    if(confirmDelete) {
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this supplier"
+    );
+    if (confirmDelete) {
       try {
         const response = await axios.delete(
           `http://localhost:5000/api/supplier/${id}`,
@@ -158,7 +159,7 @@ function Supplier() {
         console.error("error deleting supplier", error);
       }
     }
-  }
+  };
 
   return (
     <div className="w-full h-full flex flex-col gap-4 p-4">
@@ -209,7 +210,10 @@ function Supplier() {
                   >
                     Edit
                   </button>
-                  <button onClick={()=>handleDelete(supplier._id)} className="px-2 py-1 bg-red-500 text-white rounded cursor-pointer">
+                  <button
+                    onClick={() => handleDelete(supplier._id)}
+                    className="px-2 py-1 bg-red-500 text-white rounded cursor-pointer"
+                  >
                     Delete
                   </button>
                 </td>
