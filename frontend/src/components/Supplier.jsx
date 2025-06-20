@@ -12,6 +12,7 @@ function Supplier() {
   });
   const [suppliers, setSuppliers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filteredSupplier, setfilteredSupplier] = useState([]);
 
   const token = localStorage.getItem("pos-token");
 
@@ -99,6 +100,7 @@ function Supplier() {
         },
       });
       setSuppliers(response.data.suppliers);
+      setfilteredSupplier(response.data.suppliers);
       setLoading(false);
     } catch (error) {
       console.error("error fetching suppliers", error);
@@ -161,6 +163,14 @@ function Supplier() {
     }
   };
 
+  const handleSearch = (e)=> {
+    setfilteredSupplier(
+      suppliers.filter((supplier)=>
+      supplier.name.toLowerCase().includes(e.target.value.toLowerCase())
+      )
+    )
+  }
+
   return (
     <div className="w-full h-full flex flex-col gap-4 p-4">
       <h1 className="text-2xl font-bold">Supplier Management</h1>
@@ -168,6 +178,7 @@ function Supplier() {
         <input
           type="text"
           name="search"
+          onChange={handleSearch}
           placeholder="Search.."
           className="border p-1 bg-white rounded px-4"
         />
@@ -182,6 +193,7 @@ function Supplier() {
       {loading ? (
         <div>loading...</div>
       ) : (
+        <div>
         <table className="w-full border-collapse border border-gray-300 mt-4">
           <thead>
             <tr className="bg-gray-200">
@@ -194,7 +206,7 @@ function Supplier() {
             </tr>
           </thead>
           <tbody>
-            {suppliers.map((supplier, index) => (
+            {filteredSupplier.map((supplier, index) => (
               <tr key={supplier._id}>
                 <td className="border border-gray-300 p-2">{index + 1}</td>
                 <td className="border border-gray-300 p-2">{supplier.name}</td>
@@ -221,7 +233,10 @@ function Supplier() {
             ))}
           </tbody>
         </table>
-      )}
+        {filteredSupplier.length === 0 && <div>No records</div>}
+        </div>
+      )
+      }
 
       {addModal && (
         <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex justify-center items-center">
