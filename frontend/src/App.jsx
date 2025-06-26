@@ -8,6 +8,7 @@ import Categories from "./components/Categories";
 import Supplier from "./components/Supplier";
 import Products from "./components/Products";
 import Logout from "./components/Logout";
+import Summary from "./components/Summary";
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
             </ProtectedRoutes>
           }
         >
-          <Route index element={<h2>summary of dashboard</h2>} />
+          <Route index element={<Summary />} />
           <Route path="categories" element={<Categories />} />
           <Route path="products" element={<Products />} />
           <Route path="suppliers" element={<Supplier />} />
